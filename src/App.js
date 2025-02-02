@@ -5,11 +5,21 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <p>I'm just a piece of text</p>
+      <WelcomeMsg />
       <Logo />
       <InputBox />
     </div>
   );
+}
+
+function WelcomeMsg() {
+  const user = "bro"
+  return (
+    <>
+      <h1 className="welcome-header">Welcome {user}</h1>
+      <p class="welcome-msg">Select a category below and enter your input</p>
+    </>
+  )
 }
 
 function Logo() {
@@ -78,7 +88,7 @@ function InputCategories({ selectedOption, setSelectedOption }) {
           onChange={handleOptionChange}
         />
         <label className="radio-input-label" htmlFor="chart">
-          Show me a chart of my profits
+          Show me a chart of...
         </label>
       </div>
       <div>
@@ -100,13 +110,26 @@ function InputCategories({ selectedOption, setSelectedOption }) {
 }
 
 function InputText({ isDisabled }) {
+  const [text, setText] = useState('');
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  }
   return (
     <div className="right">
-      <textarea
-        className="text-area"
-        placeholder="Message investly"
-        disabled={isDisabled}
-      />
+      <div className="input-wrapper">
+        <textarea
+          className="text-area"
+          placeholder="Message investly"
+          disabled={isDisabled}
+          value={text}
+          onChange={handleTextChange}
+        />
+        <button className="submit-button"
+          disabled={isDisabled || text.trim() === ""}>
+          ➤
+        </button>
+      </div>
     </div>
   )
 }
