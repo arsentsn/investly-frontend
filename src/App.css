@@ -6,7 +6,7 @@
 
 body {
   font-family: 'Roboto', 'Courier New', Courier, monospace;
-  background-color: #212121;
+  background-color: #0b0b0b;
 }
 
 .welcome-header {
@@ -110,13 +110,13 @@ input[type="radio"]:checked+.radio-input-label {
   display: flex;
   flex-direction: column;
   width: 200px;
-  background-color: #303030;
+  background-color: #191919;
   padding: 5px;
   border-radius: 1.5rem 0 0 1.5rem;
 }
 
 .text-area {
-  background-color: #303030;
+  background-color: #191919;
   resize: none;
   width: 95%;
   height: 90%;
@@ -139,7 +139,7 @@ input[type="radio"]:checked+.radio-input-label {
 
 .right {
   width: 800px;
-  background-color: #303030;
+  background-color: #191919;
   padding-top: 10px;
   border-radius: 0 1.5rem 1.5rem 0;
 }
@@ -160,6 +160,10 @@ input[type="radio"]:checked+.radio-input-label {
   border-radius: 50%;
   cursor: pointer;
   font-size: 18px;
+}
+
+.submit-button:hover {
+  background-color: #6fdd72;
 }
 
 .submit-button:disabled {
