@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/investly-frontend/static/css/main.e649a9e2.css",
+    "main.css": "/investly-frontend/static/css/main.04a6d619.css",
     "main.js": "/investly-frontend/static/js/main.04b3d744.js",
     "static/js/488.ec7041d0.chunk.js": "/investly-frontend/static/js/488.ec7041d0.chunk.js",
     "static/media/profile-pic.jpg": "/investly-frontend/static/media/profile-pic.9e6e397c4586acdd745b.jpg",
     "static/media/logo.svg": "/investly-frontend/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/investly-frontend/index.html",
-    "main.e649a9e2.css.map": "/investly-frontend/static/css/main.e649a9e2.css.map",
+    "main.04a6d619.css.map": "/investly-frontend/static/css/main.04a6d619.css.map",
     "main.04b3d744.js.map": "/investly-frontend/static/js/main.04b3d744.js.map",
     "488.ec7041d0.chunk.js.map": "/investly-frontend/static/js/488.ec7041d0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e649a9e2.css",
+    "static/css/main.04a6d619.css",
     "static/js/main.04b3d744.js"
   ]
 }
