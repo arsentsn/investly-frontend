@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
+import profilePic from './profile-pic.jpg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
+      <Header />
       <WelcomeMsg />
-      <Logo />
       <InputBox />
     </div>
   );
 }
 
+const user = "bro"
+
+function Header() {
+  return (
+    <div className="header">
+      <Logo />
+      <Profile />
+    </div>
+  )
+}
+
+function Profile() {
+  return (
+    <div className="profile">
+      <a className="profile-link">{user}</a>
+      <img src={profilePic} className="profile-pic" alt="profile-pic" />
+    </div>
+  )
+}
+
 function WelcomeMsg() {
-  const user = "bro"
   return (
     <>
       <h1 className="welcome-header">Welcome {user}</h1>
@@ -60,7 +80,7 @@ function InputCategories({ selectedOption, setSelectedOption }) {
           onChange={handleOptionChange}
         />
         <label className="radio-input-label" htmlFor="buy">
-          I want to buy stocks
+          I want to buy
         </label>
       </div>
       <div>

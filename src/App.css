@@ -1,4 +1,8 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
   text-align: center;
 }
 
@@ -7,6 +11,29 @@
 body {
   font-family: 'Roboto', 'Courier New', Courier, monospace;
   background-color: #0b0b0b;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.profile-pic {
+  height: 2.4em;
+  border-radius: 50%;
+  border: 1px solid rgb(255, 255, 255);
+  margin-left: 6px;
 }
 
 .welcome-header {
@@ -67,7 +94,6 @@ body {
 .input-container {
   position: fixed;
   bottom: 2%;
-  left: 15%;
   display: flex;
   flex-direction: row;
 }
@@ -146,10 +172,7 @@ input[type="radio"]:checked+.radio-input-label {
 
 .logo {
   height: 4em;
-  position: fixed;
-  left: 6px;
-  top: 10px;
-  animation: App-logo-spin 6s infinite linear;
+  /* padding-left: 4px; */
 }
 
 .submit-button {
