@@ -97,8 +97,8 @@ body {
   display: flex;
   flex-direction: row;
   border-radius: 1.5rem;
-  animation: showShadowDelayed 0.8s ease-in forwards;
-  animation-delay: 1s;
+  animation: showShadowDelayed 0.6s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;
+  animation-delay: 0.8s;
 }
 
 @keyframes showShadowDelayed {
@@ -107,7 +107,7 @@ body {
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(115, 220, 118, 0.5);
+    box-shadow: 0 0 30px rgba(115, 220, 118, 0.5);
   }
 
   100% {
@@ -188,8 +188,8 @@ input[type="radio"]:checked+.radio-input-label {
 }
 
 .logo {
-  height: 4em;
-  /* padding-left: 4px; */
+  height: 3em;
+  padding: 10px;
 }
 
 .submit-button {
