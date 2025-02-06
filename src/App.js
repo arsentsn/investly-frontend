@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import './App.css';
 import { Header } from './components/HeaderComponents';
 import { InputBox } from './components/InputComponents';
 import ChatDisplay from './components/ChatDisplay';
+import './App.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
+  const user = "User"; // You can replace this with the actual user name or get it from somewhere else
 
   const handleNewMessage = (text, category) => {
     setMessages(prevMessages => [...prevMessages, { text, isUser: true, category }]);
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <ChatDisplay messages={messages} />
+      <ChatDisplay messages={messages} user={user} />
       <InputBox onSendMessage={handleNewMessage} />
     </div>
   );
