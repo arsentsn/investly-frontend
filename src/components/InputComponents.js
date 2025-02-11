@@ -1,9 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 export function InputBox({ onSendMessage }) {
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedLabel, setSelectedLabel] = useState('');
     const textareaRef = useRef(null);
+    const [stompClient, setStompClient] = useState(null);
+
+    // Initialize WebSocket connection
+    useEffect(() => {
+        const socket = new SockJS('http://localhost:8086/ws');
+        const stomp = Stomp.over(socket);
+
+        stomp.connect({}, (frame) => {
+            console.log('Connected to WebSocket:', frame);
+            setStompClient(stomp);
+
+            // Subscribe to the messages topic
+            stomp.subscribe('/topic/messages', (messageOutput) => {
+                const response = JSON.parse(messageOutput.body);
+                console.log("Received from server:", response);
+                // Handle the response if needed
+            });
+        });
+
+        // Cleanup on unmount
+        return () => {
+            if (stomp) {
+                stomp.disconnect();
+            }
+        };
+    }, []);
 
     const handleOptionChange = (newOption, newLabel) => {
         if (selectedOption === newOption) {
@@ -12,6 +40,21 @@ export function InputBox({ onSendMessage }) {
         } else {
             setSelectedOption(newOption);
             setSelectedLabel(newLabel);
+        }
+    };
+
+    // Modified to use WebSocket
+    const handleSendMessage = (text) => {
+        if (stompClient && stompClient.connected) {
+            const message = {
+                maskId: selectedOption,
+                textPrompt: text
+            };
+            stompClient.send("/app/send", {}, JSON.stringify(message));
+            console.log("Message sent:", message);
+            onSendMessage(text, selectedLabel); // Update UI
+        } else {
+            console.error("WebSocket connection not established");
         }
     };
 
@@ -48,7 +91,7 @@ export function InputBox({ onSendMessage }) {
                 <InputText
                     isDisabled={!selectedOption}
                     textareaRef={textareaRef}
-                    onSendMessage={(text) => onSendMessage(text, selectedLabel)}
+                    onSendMessage={handleSendMessage}
                 />
             </div>
         </>
@@ -57,22 +100,57 @@ export function InputBox({ onSendMessage }) {
 
 
 export function InputCategories({ selectedOption, onOptionChange }) {
-    const categories = [
-        { id: 'buy', label: 'I want to buy' },
-        { id: 'pivot', label: 'I want to pivot' },
-        { id: 'chart', label: 'Show me a chart of...' },
-        { id: 'other', label: '...' }
-    ];
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                setLoading(true);
+                console.log('Fetching categories...'); // Debug log
+                const response = await fetch('http://localhost:8086/getmasks');
+                console.log('Response status:', response.status); // Debug log
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch categories: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Fetched data:', data); // Debug log
+                setCategories(data);
+            } catch (err) {
+                console.error('Error details:', err); // More detailed error logging
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    if (loading) {
+        console.log('Showing loading state'); // Debug log
+        return <div>Loading categories...</div>;
+    }
+    
+    if (error) {
+        console.log('Showing error state:', error); // Debug log
+        return <div>Error loading categories: {error}</div>;
+    }
+
+    console.log('Rendering categories:', categories); // Debug log
 
     return (
         <div className="categories-row">
-            {categories.map(category => (
+            {categories.map(mask => (
                 <button
-                    key={category.id}
-                    className={`category-button ${selectedOption === category.id ? 'selected' : ''}`}
-                    onClick={() => onOptionChange(category.id, category.label)}
+                    key={mask.id}
+                    className={`category-button ${selectedOption === mask.id ? 'selected' : ''}`}
+                    onClick={() => onOptionChange(mask.id, mask.label)}
                 >
-                    {category.label}
+                    {mask.label}
                 </button>
             ))}
         </div>

@@ -1,7 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 function ChatDisplay({ messages, user }) {
+    const [stompClient, setStompClient] = useState(null);
     const showWelcome = messages.length === 0;
+
+    useEffect(() => {
+        // Initialize WebSocket connection
+        const socket = new SockJS('http://localhost:8086/ws');
+        const stomp = Stomp.over(socket);
+
+        stomp.connect({}, (frame) => {
+            console.log('Connected to WebSocket:', frame);
+            setStompClient(stomp);
+
+            // Subscribe to the messages topic
+            stomp.subscribe('/topic/messages', (messageOutput) => {
+                const response = JSON.parse(messageOutput.body);
+                console.log("Received from server:", response);
+                // Here you can handle the incoming message
+                // For example, you might want to update your messages state
+            });
+        });
+
+        // Cleanup on component unmount
+        return () => {
+            if (stomp) {
+                stomp.disconnect();
+            }
+        };
+    }, []); // Empty dependency array means this runs once on mount
+
+    // Function to send messages through WebSocket
+    const sendMessage = (maskId, textPrompt) => {
+        if (stompClient && stompClient.connected) {
+            const message = {
+                maskId: maskId,
+                textPrompt: textPrompt
+            };
+            stompClient.send("/app/send", {}, JSON.stringify(message));
+            console.log("Message sent:", message);
+        } else {
+            console.error("WebSocket connection not established");
+        }
+    };
 
     return (
         <div className="chat-display">
