@@ -56,7 +56,7 @@ function ChatDisplay({ messages, user }) {
             ) : (
                 messages.map((message, index) => (
                     <div key={index} className={`message ${message.isUser ? 'user' : 'bot'}`}>
-                        {message.isUser && <span className="category">{message.category}</span>}
+                        {message.isUser && <span className="mask">{message.mask}</span>}
                         <p className="text-paragraph">{message.text}</p>
                     </div>
                 ))

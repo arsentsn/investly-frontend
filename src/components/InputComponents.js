@@ -81,13 +81,13 @@ export function InputBox({ onSendMessage }) {
 
     return (
         <>
-            <div className={`categories-container ${selectedOption ? 'category-selected' : ''}`}>
-                <InputCategories
+            <div className={`masks-container ${selectedOption ? 'mask-selected' : ''}`}>
+                <InputMasks
                     selectedOption={selectedOption}
                     onOptionChange={handleOptionChange}
                 />
             </div>
-            <div className={`input-container ${selectedOption ? 'category-selected' : ''}`}>
+            <div className={`input-container ${selectedOption ? 'mask-selected' : ''}`}>
                 <InputText
                     isDisabled={!selectedOption}
                     textareaRef={textareaRef}
@@ -99,26 +99,26 @@ export function InputBox({ onSendMessage }) {
 }
 
 
-export function InputCategories({ selectedOption, onOptionChange }) {
-    const [categories, setCategories] = useState([]);
+export function InputMasks({ selectedOption, onOptionChange }) {
+    const [masks, setMasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const fetchMasks = async () => {
             try {
                 setLoading(true);
-                console.log('Fetching categories...'); // Debug log
+                console.log('Fetching masks...'); // Debug log
                 const response = await fetch('http://localhost:8086/getmasks');
                 console.log('Response status:', response.status); // Debug log
-                
+
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch categories: ${response.status}`);
+                    throw new Error(`Failed to fetch masks: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
                 console.log('Fetched data:', data); // Debug log
-                setCategories(data);
+                setMasks(data);
             } catch (err) {
                 console.error('Error details:', err); // More detailed error logging
                 setError(err.message);
@@ -127,27 +127,27 @@ export function InputCategories({ selectedOption, onOptionChange }) {
             }
         };
 
-        fetchCategories();
+        fetchMasks();
     }, []);
 
     if (loading) {
         console.log('Showing loading state'); // Debug log
-        return <div>Loading categories...</div>;
+        return <div>Loading masks...</div>;
     }
-    
+
     if (error) {
         console.log('Showing error state:', error); // Debug log
-        return <div>Error loading categories: {error}</div>;
+        return <div>Error loading masks: {error}</div>;
     }
 
-    console.log('Rendering categories:', categories); // Debug log
+    console.log('Rendering masks:', masks); // Debug log
 
     return (
-        <div className="categories-row">
-            {categories.map(mask => (
+        <div className="masks-row">
+            {masks.map(mask => (
                 <button
                     key={mask.id}
-                    className={`category-button ${selectedOption === mask.id ? 'selected' : ''}`}
+                    className={`mask-button ${selectedOption === mask.id ? 'selected' : ''}`}
                     onClick={() => onOptionChange(mask.id, mask.label)}
                 >
                     {mask.label}

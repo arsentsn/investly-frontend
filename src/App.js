@@ -8,12 +8,12 @@ function App() {
     const [messages, setMessages] = useState([]);
     const user = "User";
 
-    const handleNewMessage = (text, category) => {
+    const handleNewMessage = (text, mask) => {
         // Add user message to the chat
         setMessages(prevMessages => [...prevMessages, {
             text,
             isUser: true,
-            category
+            mask
         }]);
 
         // The WebSocket connection and message sending is now handled in ChatDisplay
@@ -22,8 +22,8 @@ function App() {
     return (
         <div className="App">
             <Header />
-            <ChatDisplay 
-                messages={messages} 
+            <ChatDisplay
+                messages={messages}
                 user={user}
                 onNewMessage={setMessages} // Pass setMessages to handle incoming WebSocket messages
             />
