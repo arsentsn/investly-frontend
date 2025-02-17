@@ -50,7 +50,7 @@ export function InputBox({ onSendMessage }) {
                 maskId: selectedOption,
                 textPrompt: text
             };
-            stompClient.send("/app/send", {}, JSON.stringify(message));
+            stompClient.send("/messages/new", {}, JSON.stringify(message));
             console.log("Message sent:", message);
             onSendMessage(text, selectedLabel); // Update UI
         } else {
