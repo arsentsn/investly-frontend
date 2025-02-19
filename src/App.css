@@ -136,70 +136,17 @@ body {
   font-size: 16px;
 }
 
-.masks-row {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding: 0 0 10px 20px;
-  /* Added left padding */
-  /* Add some padding to account for the scrollbar */
-}
-
-.mask-item {
-  display: inline-block;
-  flex-shrink: 0;
-  /* Prevent items from shrinking */
-}
-
-.masks-container {
-  position: fixed;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-  transition: bottom 0.3s ease;
-  z-index: 10;
-  padding: 10px 0;
-}
-
-.masks-container.mask-selected {
-  bottom: 75px;
-  /* Adjust this value based on your input container height */
-}
-
 .input-container {
   position: fixed;
-  bottom: -200px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   width: 50%;
   background-color: #191919;
   border-radius: 2.5rem;
   overflow: hidden;
-  transition: bottom 0.3s ease, box-shadow 0.3s ease;
-}
-
-.input-container.mask-selected {
-  bottom: 10px;
-  animation: showShadowDelayedInput 0.5s ease-in forwards;
-}
-
-@keyframes showShadowDelayedMask {
-  0% {
-    box-shadow: 0 0 0 rgba(39, 246, 177, 0);
-  }
-
-  50% {
-    box-shadow: 0 0 15px rgba(39, 246, 177, 0.5);
-  }
-
-  100% {
-    box-shadow: 0 0 10px rgba(39, 246, 177, 0.5);
-  }
+  animation: showShadowDelayedInput 1s ease-in forwards;
+  box-shadow: 0 0 10px rgba(39, 246, 177, 0.5);
 }
 
 @keyframes showShadowDelayedInput {
@@ -210,34 +157,6 @@ body {
   100% {
     box-shadow: 0 0 20px rgba(39, 246, 177, 0.5);
   }
-}
-
-.mask-button {
-  padding: 8px 16px;
-  cursor: pointer;
-  color: rgb(163, 173, 169);
-  background-color: #2a2a2a;
-  border: none;
-  border-radius: 20px;
-  transition: all 0.3s ease;
-  margin: 2px;
-  font-size: 1rem;
-  animation: showShadowDelayedMask 1s ease-in forwards;
-}
-
-.mask-button:hover {
-  background-color: #3a3a3a;
-  text-shadow: 0 0 10px rgba(127, 255, 212, 0.7);
-}
-
-.mask-button.selected {
-  background-color: rgb(39, 246, 177);
-  color: #191919;
-}
-
-.masks-container.mask-selected .mask-button {
-  box-shadow: none;
-  animation: none;
 }
 
 .chat-display {
@@ -267,12 +186,6 @@ body {
 .message.bot {
   background-color: #2a2a2a;
   color: #fff;
-}
-
-.mask {
-  font-size: 0.8em;
-  color: #666;
-  display: block;
 }
 
 .text-paragraph {
