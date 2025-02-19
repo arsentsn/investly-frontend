@@ -9,7 +9,7 @@ export function InputBox({ onSendMessage }) {
 
     useEffect(() => {
         // Connect to WebSocket
-        const socket = new SockJS('http://localhost:8080/ws');
+        const socket = new SockJS('http://localhost:8086/ws');
         const client = Stomp.over(socket);
         
         client.connect({}, frame => {
@@ -22,7 +22,7 @@ export function InputBox({ onSendMessage }) {
                 const response = JSON.parse(message.body);
                 console.log('Received:', response);
                 if (onSendMessage) {
-                    onSendMessage(response.text);
+                    onSendMessage(response.aiResponse.message);
                 }
             });
         });
@@ -37,7 +37,7 @@ export function InputBox({ onSendMessage }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (message.trim() && stompClient && connected) {
-            stompClient.send("/app/send", {}, JSON.stringify({
+            stompClient.send("/messages/new", {}, JSON.stringify({
                 textPrompt: message
             }));
             setMessage(''); // Clear input after sending

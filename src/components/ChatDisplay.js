@@ -39,7 +39,7 @@ function ChatDisplay({ messages, user }) {
                 maskId: maskId,
                 textPrompt: textPrompt
             };
-            stompClient.send("/app/send", {}, JSON.stringify(message));
+            stompClient.send("/messages/new", {}, JSON.stringify(message));
             console.log("Message sent:", message);
         } else {
             console.error("WebSocket connection not established");
