@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import RevenueChart from './widgets';
 
 function ChatDisplay({ messages, user }) {
     const [stompClient, setStompClient] = useState(null);
     const showWelcome = messages.length === 0;
 
+    const portfolioData = [
+        { month: 'Sep', value: 12500 },
+        { month: 'Oct', value: 13100 },
+        { month: 'Nov', value: 14200 },
+        { month: 'Dec', value: 13800 },
+        { month: 'Jan', value: 14000 },
+        { month: 'Feb', value: 15231.89 }
+    ];
+
+    
     useEffect(() => {
         // Initialize WebSocket connection
         const socket = new SockJS('http://localhost:8086/ws');
@@ -61,6 +72,7 @@ function ChatDisplay({ messages, user }) {
                     </div>
                 ))
             )}
+             <RevenueChart data={portfolioData} />
         </div>
     );
 }

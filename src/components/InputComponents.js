@@ -44,6 +44,13 @@ export function InputBox({ onSendMessage }) {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault(); // Prevent newline in textarea
+            handleSubmit(e);
+        }
+    };
+
     return (
         <div className="input-container">
             <div className="input-wrapper">
@@ -51,6 +58,7 @@ export function InputBox({ onSendMessage }) {
                     className="text-area"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
                     placeholder="Type your message..."
                 />
                 <button 
