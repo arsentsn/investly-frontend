@@ -8,7 +8,6 @@ export function InputBox({ onSendMessage }) {
     const [connected, setConnected] = useState(false);
 
     useEffect(() => {
-        // Connect to WebSocket
         const socket = new SockJS('http://localhost:8086/ws');
         const client = Stomp.over(socket);
         
@@ -16,15 +15,6 @@ export function InputBox({ onSendMessage }) {
             console.log('Connected to WebSocket:', frame);
             setConnected(true);
             setStompClient(client);
-
-            // Subscribe to receive messages
-            client.subscribe('/topic/messages', message => {
-                const response = JSON.parse(message.body);
-                console.log('Received:', response);
-                if (onSendMessage) {
-                    onSendMessage(response.aiResponse.message);
-                }
-            });
         });
 
         return () => {
@@ -32,7 +22,7 @@ export function InputBox({ onSendMessage }) {
                 client.disconnect();
             }
         };
-    }, [onSendMessage]);
+    }, []); // Remove onSendMessage from dependencies
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,6 +31,9 @@ export function InputBox({ onSendMessage }) {
                 textPrompt: message
             }));
             setMessage(''); // Clear input after sending
+            if (onSendMessage) {
+                onSendMessage(message); // If you need to update UI immediately
+            }
         }
     };
 

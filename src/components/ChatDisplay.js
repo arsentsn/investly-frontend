@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import RevenueChart from './widgets';
 
-function ChatDisplay({ messages, user }) {
+function ChatDisplay({ messages, user, onNewMessage }) {
     const [stompClient, setStompClient] = useState(null);
     const showWelcome = messages.length === 0;
 
@@ -18,7 +18,6 @@ function ChatDisplay({ messages, user }) {
 
     
     useEffect(() => {
-        // Initialize WebSocket connection
         const socket = new SockJS('http://localhost:8086/ws');
         const stomp = Stomp.over(socket);
 
@@ -26,36 +25,27 @@ function ChatDisplay({ messages, user }) {
             console.log('Connected to WebSocket:', frame);
             setStompClient(stomp);
 
-            // Subscribe to the messages topic
+            // Subscribe to receive messages
             stomp.subscribe('/topic/messages', (messageOutput) => {
                 const response = JSON.parse(messageOutput.body);
                 console.log("Received from server:", response);
-                // Here you can handle the incoming message
-                // For example, you might want to update your messages state
+                
+                const aiMessageContent = JSON.parse(response.aiResponse.message);
+            
+                // Add AI response to messages
+                onNewMessage(prevMessages => [...prevMessages, {
+                    text: aiMessageContent.response,
+                    isUser: false
+                }]);
             });
         });
 
-        // Cleanup on component unmount
         return () => {
             if (stomp) {
                 stomp.disconnect();
             }
         };
-    }, []); // Empty dependency array means this runs once on mount
-
-    // Function to send messages through WebSocket
-    const sendMessage = (maskId, textPrompt) => {
-        if (stompClient && stompClient.connected) {
-            const message = {
-                maskId: maskId,
-                textPrompt: textPrompt
-            };
-            stompClient.send("/messages/new", {}, JSON.stringify(message));
-            console.log("Message sent:", message);
-        } else {
-            console.error("WebSocket connection not established");
-        }
-    };
+    }, [onNewMessage]); // Empty dependency array means this runs once on mount
 
     return (
         <div className="chat-display">
