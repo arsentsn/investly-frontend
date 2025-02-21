@@ -64,15 +64,14 @@ body {
 
 .welcome-msg {
   position: fixed;
-  top: 22%;
+  top: 21%;
   left: 0;
   right: 0;
   color: rgb(151, 151, 151);
-  font-size: 'Roboto';
+  font-family: 'Roboto';
+  font-size: 18px;
   opacity: 0;
-  /* Start hidden */
   animation: fadeIn 1s ease-in-out 0.2s forwards;
-  /* 1s duration, 0.8s delay */
 }
 
 @keyframes fadeIn {
@@ -160,7 +159,7 @@ body {
 }
 
 .message {
-  margin-bottom: 15px;
+  margin: 8px 0;
   padding: 4px;
   border-radius: 1rem;
   max-width: 40%;
@@ -229,7 +228,7 @@ body {
 }
 
 .widgets-bar {
-  width: 98%;
+  width: calc(100% - 40px);
   background-color: #1a1a1a;
   transition: height 0.3s ease;
   position: relative;
@@ -256,9 +255,12 @@ body {
 }
 
 .chat-display {
-  width: 70%;
-  height: calc(100vh - 400px);
-  overflow-y: auto;
-  margin-bottom: 20px;
-  padding-top: 20px;
+width: 70%;
+/* height: calc(100vh - 175px); */
+overflow-y: auto;
+margin-top: 4px;
+}
+
+.widgets-bar.open ~ .chat-display {
+  height: calc(100vh - 330px);
 }

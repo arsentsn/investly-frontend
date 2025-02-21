@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import RevenueChart from './Widgets';
 
 function ChatDisplay({ messages, user, onNewMessage }) {
     const [stompClient, setStompClient] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const showWelcome = messages.length === 0;
 
-    const portfolioData = [
-        { month: 'Sep', value: 12500 },
-        { month: 'Oct', value: 13100 },
-        { month: 'Nov', value: 14200 },
-        { month: 'Dec', value: 13800 },
-        { month: 'Jan', value: 14000 },
-        { month: 'Feb', value: 15231.89 }
-    ];
+    // Ref for auto-scrolling
+    const messagesEndRef = useRef(null);
 
-    
+    // Scroll to bottom whenever messages update
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
     useEffect(() => {
         if (messages.length > 0 && messages[messages.length - 1].isUser) {
             setIsLoading(true);
@@ -36,11 +33,10 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                 const response = JSON.parse(messageOutput.body);
                 console.log("Received from server:", response);
 
-                // Instead of just getting the message, store the entire response
                 setIsLoading(false);
 
                 onNewMessage(prevMessages => [...prevMessages, {
-                    text: JSON.stringify(response.aiResponse), // Store the entire AI response as a string
+                    text: JSON.stringify(response.aiResponse),
                     isUser: false
                 }]);
             });
@@ -77,6 +73,8 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                             </div>
                         </div>
                     )}
+                    {/* Invisible div to track end of messages */}
+                    <div ref={messagesEndRef} />
                 </>
             )}
         </div>
