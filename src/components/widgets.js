@@ -76,13 +76,13 @@ const RevenueChart = ({ data }) => {
   return (
     <div style={{ 
       width: '300px', 
-      height: '150px', 
-      background: '#1a1a1a', 
+      height: '130px', 
+      background: '#0B0B0B', 
       borderRadius: '15px',
-      padding: '20px',
+      padding: '5px 20px 20px 20px',
       color: 'white'
     }}>
-      <div style={{ marginBottom: '10px' }}>Portfolio Value</div>
+      <div style={{ margin: '5px 0' }}>Portfolio Value</div>
       <div style={{ 
         fontSize: '24px', 
         fontWeight: 'bold',
@@ -93,7 +93,7 @@ const RevenueChart = ({ data }) => {
       <div style={{ 
         color: percentageChange >= 0 ? '#4CAF50' : '#ff4444',
         fontSize: '14px',
-        marginBottom: '15px'
+        marginBottom: '5px'
       }}>
         {percentageChange >= 0 ? '+' : ''}{percentageChange}% over past 6 months
       </div>

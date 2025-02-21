@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import RevenueChart from './widgets';
+import RevenueChart from './Widgets';
 
 function ChatDisplay({ messages, user, onNewMessage }) {
     const [stompClient, setStompClient] = useState(null);
@@ -79,7 +79,6 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                     )}
                 </>
             )}
-            <RevenueChart data={portfolioData} />
         </div>
     );
 }
