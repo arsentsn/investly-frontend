@@ -35,12 +35,12 @@ function ChatDisplay({ messages, user, onNewMessage }) {
             stomp.subscribe('/topic/messages', (messageOutput) => {
                 const response = JSON.parse(messageOutput.body);
                 console.log("Received from server:", response);
-                
-                const aiMessageContent = JSON.parse(response.aiResponse.message);
+
+                // Instead of just getting the message, store the entire response
                 setIsLoading(false);
-                
+
                 onNewMessage(prevMessages => [...prevMessages, {
-                    text: aiMessageContent.response,
+                    text: JSON.stringify(response.aiResponse), // Store the entire AI response as a string
                     isUser: false
                 }]);
             });
