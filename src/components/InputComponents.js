@@ -32,7 +32,7 @@ export function InputBox({ onSendMessage }) {
             }));
             setMessage(''); // Clear input after sending
             if (onSendMessage) {
-                onSendMessage(message); // If you need to update UI immediately
+                onSendMessage(message, true); // Add loading parameter
             }
         }
     };

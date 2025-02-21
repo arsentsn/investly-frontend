@@ -5,6 +5,7 @@ import RevenueChart from './widgets';
 
 function ChatDisplay({ messages, user, onNewMessage }) {
     const [stompClient, setStompClient] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const showWelcome = messages.length === 0;
 
     const portfolioData = [
@@ -18,6 +19,12 @@ function ChatDisplay({ messages, user, onNewMessage }) {
 
     
     useEffect(() => {
+        if (messages.length > 0 && messages[messages.length - 1].isUser) {
+            setIsLoading(true);
+        }
+    }, [messages]);
+
+    useEffect(() => {
         const socket = new SockJS('http://localhost:8086/ws');
         const stomp = Stomp.over(socket);
 
@@ -25,14 +32,13 @@ function ChatDisplay({ messages, user, onNewMessage }) {
             console.log('Connected to WebSocket:', frame);
             setStompClient(stomp);
 
-            // Subscribe to receive messages
             stomp.subscribe('/topic/messages', (messageOutput) => {
                 const response = JSON.parse(messageOutput.body);
                 console.log("Received from server:", response);
                 
                 const aiMessageContent = JSON.parse(response.aiResponse.message);
-            
-                // Add AI response to messages
+                setIsLoading(false);
+                
                 onNewMessage(prevMessages => [...prevMessages, {
                     text: aiMessageContent.response,
                     isUser: false
@@ -45,7 +51,7 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                 stomp.disconnect();
             }
         };
-    }, [onNewMessage]); // Empty dependency array means this runs once on mount
+    }, [onNewMessage]);
 
     return (
         <div className="chat-display">
@@ -55,14 +61,21 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                     <p className="welcome-msg">Select a category below and enter your input</p>
                 </div>
             ) : (
-                messages.map((message, index) => (
-                    <div key={index} className={`message ${message.isUser ? 'user' : 'bot'}`}>
-                        {message.isUser && <span className="mask">{message.mask}</span>}
-                        <p className="text-paragraph">{message.text}</p>
-                    </div>
-                ))
+                <>
+                    {messages.map((message, index) => (
+                        <div key={index} className={`message ${message.isUser ? 'user' : 'bot'}`}>
+                            {message.isUser && <span className="mask">{message.mask}</span>}
+                            <p className="text-paragraph">{message.text}</p>
+                        </div>
+                    ))}
+                    {isLoading && (
+                        <div className="message bot loading">
+                            <div className="loading-spinner"></div>
+                        </div>
+                    )}
+                </>
             )}
-             <RevenueChart data={portfolioData} />
+            <RevenueChart data={portfolioData} />
         </div>
     );
 }
