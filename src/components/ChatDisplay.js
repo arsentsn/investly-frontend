@@ -70,7 +70,11 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                     ))}
                     {isLoading && (
                         <div className="message bot loading">
-                            <div className="loading-spinner"></div>
+                            <div className="typing-indicator">
+                                <div className="typing-dot"></div>
+                                <div className="typing-dot"></div>
+                                <div className="typing-dot"></div>
+                            </div>
                         </div>
                     )}
                 </>
