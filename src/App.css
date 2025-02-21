@@ -38,7 +38,7 @@ body {
 
 .welcome-header {
   position: fixed;
-  top: 10%;
+  top: 25%;
   left: 0;
   right: 0;
   display: flex;
@@ -64,7 +64,7 @@ body {
 
 .welcome-msg {
   position: fixed;
-  top: 21%;
+  top: 36%;
   left: 0;
   right: 0;
   color: rgb(151, 151, 151);
