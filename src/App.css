@@ -6,8 +6,6 @@
   text-align: center;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
 body {
   font-family: 'Roboto', 'Courier New', Courier, monospace;
   background-color: #0b0b0b;
@@ -37,10 +35,6 @@ body {
 }
 
 .welcome-header {
-  position: fixed;
-  top: 25%;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
   color: white;
@@ -48,7 +42,10 @@ body {
   font-family: Roboto;
   animation: fadeInFromTop 0.8s ease-out forwards;
   opacity: 0;
+  margin-bottom:0;
+  margin-top:15px;
 }
+
 
 @keyframes fadeInFromTop {
   from {
@@ -63,15 +60,12 @@ body {
 }
 
 .welcome-msg {
-  position: fixed;
-  top: 36%;
-  left: 0;
-  right: 0;
   color: rgb(151, 151, 151);
   font-family: 'Roboto';
   font-size: 18px;
   opacity: 0;
   animation: fadeIn 1s ease-in-out 0.2s forwards;
+  margin-top:0;
 }
 
 @keyframes fadeIn {
@@ -227,28 +221,9 @@ body {
   margin-right: auto;
 }
 
-.widgets-bar {
-  width: calc(100% - 40px);
-  background-color: #1a1a1a;
-  transition: height 0.3s ease;
-  position: relative;
-  border-radius: 8px;
-  padding: 0 10px;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-}
-
-.widgets-bar.open {
-  height: 180px;
-}
-
-.widgets-bar.closed {
-  height: 25px;
-}
-
 .widgets-container {
   display: flex;
-  gap: 20px; 
+  gap: 20px;
   overflow-x: auto;
   height: 100%;
   align-items: center;
@@ -300,10 +275,7 @@ margin-top: 4px;
   margin-right: auto;
   max-width: 80%;
   text-align: left;
-}
-
-.message-content {
-  padding: 5px 10px;
+  padding-right: 35px;
 }
 
 /* Add these styles to your App.css file */
@@ -404,10 +376,6 @@ margin-top: 4px;
   text-align: left;
 }
 
-.message-content {
-  padding: 5px 10px;
-}
-
 /* Add these styles to your App.css file */
 
 /* Balance Information Styles */
@@ -469,6 +437,234 @@ margin-top: 4px;
   text-align: right;
   font-size: 1.1rem;
   color: #000;
+}
+
+/* Trade History Styles */
+.trade-history {
+  width: 100%;
+  padding: 15px;
+}
+
+.trade-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.trades-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trade-item {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  transition: transform 0.2s ease;
+  width: 200px;
+}
+
+.trade-item:hover {
+  transform: translateX(2px);
+}
+
+.trade-symbol {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trade-type {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.trade-type.buy {
+  background-color: #28F6B1;
+  color: #000;
+}
+
+.trade-type.sell {
+  background-color: rgb(253, 102, 37);
+  color: #fff;
+}
+
+.trade-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.trade-amount,
+.trade-price,
+.trade-total,
+.trade-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  color: #666;
+  font-weight: 500;
+}
+
+.value {
+  color: #000;
+  font-weight: 500;
+}
+
+.investment-advice {
+  text-align: left;
+  padding: 10px;
+}
+
+.main-response {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.allocation-breakdown {
+  margin: 10px 0;
+}
+
+.allocation-item {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.strategy-note {
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* Update existing message styles */
+.message.bot {
+  background-color: #27f6b1;
+  color: #000;
+  align-self: flex-end;
+  margin-right: auto;
+  max-width: 80%;
+  text-align: left;
+}
+/* Add these styles to your App.css file */
+
+/* Balance Information Styles */
+.balance-info {
+  width: 100%;
+  padding: 15px;
+}
+
+.balance-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.balance-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.balance-item:hover {
+  transform: translateY(-2px);
+}
+
+.crypto-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.balance-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: #000;
+}
+
+.asset-amount {
+  color: #1a1a1a;
+  font-size: 0.9rem;
+}
+
+.total-value {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: right;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* Crypto Information Styles */
+.crypto-info {
+  width: 100%;
+  padding: 15px;
+  color: #000;
+}
+
+.info-section {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.info-section:hover {
+  transform: translateX(2px);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.main-description {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.section-title {
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: "•";
+  color: #28F6B1;
+  font-size: 1.2em;
+}
+
+.info-section p {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
 }
 
 /* Trade History Styles */
@@ -589,4 +785,316 @@ margin-top: 4px;
 
 .message-content {
   padding: 5px 10px;
+}
+
+.widget-response {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.widget-response p {
+  margin-bottom: 10px;
+  color: black;
+}
+
+/* Ensure widgets in chat maintain their style */
+.message.bot .widget-response {
+  background: transparent;
+  padding: 5px;
+}
+
+.widgets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+
+.widgets-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.widget-wrapper {
+  position: relative;
+  margin: 10px;
+}
+
+.remove-widget-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.widget-wrapper:hover .remove-widget-btn {
+  opacity: 1;
+}
+
+.widgets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  border-radius: 8px 8px 0 0;
+}
+
+.widgets-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+}
+
+.widgets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  min-height: 150px;
+}
+
+.widget-wrapper {
+  position: relative;
+  background: #0B0B0B;
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 200px;
+}
+
+.remove-widget-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.widget-wrapper:hover .remove-widget-btn {
+  opacity: 1;
+}
+
+/* Quick Trade Widget Specific Styles */
+.quick-trade-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.widget-title {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+}
+
+.widgets-bar {
+  width: 100%;
+  background-color: #1a1a1a;
+  transition: all 0.3s ease;
+  position: relative;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.widgets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  border-radius: 8px 8px 0 0;
+}
+
+.widgets-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+}
+
+.widgets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  min-height: 150px;
+}
+
+.widget-wrapper {
+  position: relative;
+  background: #0B0B0B;
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 200px;
+}
+
+.remove-widget-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.widget-wrapper:hover .remove-widget-btn {
+  opacity: 1;
+}
+
+/* Quick Trade Widget Specific Styles */
+.quick-trade-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.amount-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.amount-input {
+  width: 100%;
+  padding: 8px 45px 8px 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #2c2c2c;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.amount-input:focus {
+  border-color: #28F6B1;
+}
+
+.amount-input::placeholder {
+  color: #666;
+}
+
+.currency-label {
+  position: absolute;
+  right: 12px;
+  color: #666;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.widget-title {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+}
+
+.trade-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.trade-button.buy {
+  background-color: #28F6B1;
+  color: black;
+}
+
+.trade-button.buy:hover {
+  background-color: #1de49f;
+}
+
+.trade-button.sell {
+  background-color: rgb(253, 102, 37);
+  color: white;
+}
+
+.trade-button.sell:hover {
+  background-color: rgb(233, 82, 17);
+}
+
+.widgets-bar.open {
+  height: auto;
+}
+
+.widgets-bar.closed {
+  height: 45px;
+  overflow: hidden;
 }

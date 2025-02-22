@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import TradeHistoryDisplay from '../utils/TradeHistoryDisplay';
 
 const formatAIResponse = (messageString) => {
     try {
@@ -10,51 +11,64 @@ const formatAIResponse = (messageString) => {
         // Parse the inner message JSON string
         const innerMessage = JSON.parse(messageObj.message);
 
+        // Handle crypto information response
+        if (innerMessage.response && innerMessage.current_market_position) {
+            return (
+                <div className="crypto-info-container p-4 rounded-lg">
+                    {/* Main Response */}
+                    <div className="mb-6">
+                        <p className="text-lg font-medium text-black">{innerMessage.response}</p>
+                    </div>
+
+                    {/* Market Position */}
+                    <div className="bg-black/5 p-4 rounded-lg mb-4">
+                        <h3 className="font-semibold mb-2 text-black">Market Position</h3>
+                        <p className="text-gray-800">{innerMessage.current_market_position}</p>
+                    </div>
+
+                    {/* Investment Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        {/* Investment Considerations */}
+                        <div className="bg-black/5 p-4 rounded-lg">
+                            <h3 className="font-semibold mb-2 text-black">Investment Considerations</h3>
+                            <p className="text-gray-800">{innerMessage.potential_investment_considerations}</p>
+                        </div>
+
+                        {/* Historical Performance */}
+                        <div className="bg-black/5 p-4 rounded-lg">
+                            <h3 className="font-semibold mb-2 text-black">Historical Performance</h3>
+                            <p className="text-gray-800">{innerMessage.historical_performance}</p>
+                        </div>
+                    </div>
+
+                    {/* Risk Factors and Investment Option */}
+                    <div className="bg-black/5 p-4 rounded-lg mb-4">
+                        <div className="mb-4">
+                            <h3 className="font-semibold mb-2 text-black">Risk Factors</h3>
+                            <p className="text-gray-800">{innerMessage.risk_factors}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-semibold mb-2 text-black">Investment Option</h3>
+                            <p className="text-gray-800">{innerMessage.investment_option}</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         // Handle trade history response
         if (innerMessage.trades) {
             return (
                 <div className="trade-history">
                     <h3 className="trade-header">Recent Trades</h3>
                     <div className="trades-container">
-                        {innerMessage.trades.map((trade, index) => {
-                            const tradeDate = new Date(trade.time);
-                            const formattedDate = tradeDate.toLocaleString();
-                            const totalValue = (parseFloat(trade.price) * parseFloat(trade.quantity)).toFixed(2);
-
-                            return (
-                                <div key={trade.orderId} className="trade-item">
-                                    <div className="trade-symbol">
-                    <span className={`trade-type ${trade.isBuyer ? 'buy' : 'sell'}`}>
-                      {trade.isBuyer ? 'BUY' : 'SELL'}
-                    </span>
-                                        {trade.symbol}
-                                    </div>
-                                    <div className="trade-details">
-                                        <div className="trade-amount">
-                                            <span className="label">Amount:</span>
-                                            <span className="value">{parseFloat(trade.quantity).toFixed(4)} {trade.symbol.replace('USDT', '')}</span>
-                                        </div>
-                                        <div className="trade-price">
-                                            <span className="label">Price:</span>
-                                            <span className="value">${parseFloat(trade.price).toFixed(2)}</span>
-                                        </div>
-                                        <div className="trade-total">
-                                            <span className="label">Total:</span>
-                                            <span className="value">${totalValue}</span>
-                                        </div>
-                                        <div className="trade-time">
-                                            <span className="label">Time:</span>
-                                            <span className="value">{formattedDate}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                        {innerMessage.trades.map((trade, index) => (
+                            <TradeHistoryDisplay key={trade.orderId || index} trade={trade} />
+                        ))}
                     </div>
                 </div>
             );
         }
-
         // Handle balance information response
         if (innerMessage.balances) {
             return (
@@ -87,8 +101,8 @@ const formatAIResponse = (messageString) => {
             );
         }
 
+        // Handle investment advice response
         if (innerMessage.allocation) {
-            // Format investment advice response
             return (
                 <div className="investment-advice">
                     <p className="main-response">{innerMessage.response}</p>
@@ -108,7 +122,7 @@ const formatAIResponse = (messageString) => {
             );
         }
 
-        // For non-investment advice responses, just return the response field
+        // For other responses, return the response field or stringified message
         return innerMessage.response || JSON.stringify(innerMessage);
     } catch (e) {
         // If parsing fails, return the original message or a default message
@@ -125,12 +139,10 @@ function ChatDisplay({ messages, user, onNewMessage }) {
     useEffect(() => {
         const chatContainer = document.querySelector('.chat-display');
         if (chatContainer) {
-            // Scroll down by a specific amount (e.g., 50 pixels)
-            chatContainer.scrollTop += 50; // Adjust this value as needed
-
-            // If loading, ensure the loading bubble is visible
             if (isLoading) {
-                chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            } else {
+                chatContainer.scrollTop += 50;
             }
         }
     }, [messages, isLoading]);

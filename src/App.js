@@ -3,6 +3,7 @@ import { Header } from './components/HeaderComponents';
 import { InputBox } from './components/InputComponents';
 import ChatDisplay from './components/ChatDisplay';
 import WidgetsBar from './components/WidgetsBar';
+import { PriceProvider } from './utils/PriceContext';
 import './App.css';
 
 function App() {
@@ -18,16 +19,18 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <Header />
-            <WidgetsBar />
-            <ChatDisplay
-                messages={messages}
-                user={user}
-                onNewMessage={setMessages}
-            />
-            <InputBox onSendMessage={handleNewMessage} />
-        </div>
+        <PriceProvider>
+            <div className="App">
+                <Header />
+                <WidgetsBar />
+                <ChatDisplay
+                    messages={messages}
+                    user={user}
+                    onNewMessage={setMessages}
+                />
+                <InputBox onSendMessage={handleNewMessage} />
+            </div>
+        </PriceProvider>
     );
 }
 

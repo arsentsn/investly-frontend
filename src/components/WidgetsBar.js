@@ -1,54 +1,182 @@
-import React, { useState } from "react";
-import WidgetRenderer from "./WidgetRenderer";
+import React, { useState, useEffect } from 'react';
+import WidgetRenderer from './WidgetRenderer';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
-const backendDataQuickTrade = {
-  id: 143,
-  message:
-    '{ "response": "A quick buy button widget for Bitcoin has been created successfully.", "widget": { "type": "QUICK_TRADE", "assets": ["BTC"], "isBuy": true } }',
-  timestamp: "2025-02-21T19:53:52.365964+02:00",
-  messageEntity: {
-    id: 158,
-    textPrompt: null,
-    timestamp: null,
-    threadId: null,
-  },
-  threadId: "thread_T0TrnME68enerihbBIbuOd3a",
-};
-
-const backendDataPortfolio = {
-  id: 144,
-  message:
-    '{ "response": "A portfolio overview widget has been created successfully.", "widget": { "type": "PORTFOLIO", "assets": [], "balanceData": { "balances": [ { "asset": "ETH", "free": "1.0183", "locked": "0.0000" }, { "asset": "BTC", "free": "1.0076", "locked": "0.0000" }, { "asset": "LTC", "free": "4.0000", "locked": "0.0000" }, { "asset": "BNB", "free": "1.0000", "locked": "0.0000" }, { "asset": "XRP", "free": "195.0000", "locked": "0.0000" }, { "asset": "ADA", "free": "650.0000", "locked": "0.0000" }, { "asset": "DOGE", "free": "2858.0000", "locked": "0.0000" }, { "asset": "SOL", "free": "2.0000", "locked": "0.0000" }, { "asset": "DOT", "free": "103.0000", "locked": "0.0000" } ] } } }',
-  timestamp: "2025-02-21T19:55:14.4444+02:00",
-  messageEntity: {
-    id: 159,
-    textPrompt: null,
-    timestamp: null,
-    threadId: null,
-  },
-  threadId: "thread_T0TrnME68enerihbBIbuOd3a",
-};
-
-function WidgetsBar({ portfolioData }) {
+const WidgetsBar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [widgets, setWidgets] = useState([]);
+  const [stompClient, setStompClient] = useState(null);
+  const [amounts, setAmounts] = useState({});
+  const [notifications, setNotifications] = useState({}); // For feedback messages
+
+  useEffect(() => {
+    const socket = new SockJS('http://localhost:8086/ws');
+    const stomp = Stomp.over(socket);
+
+    stomp.connect({}, (frame) => {
+      console.log('Connected to WebSocket:', frame);
+      setStompClient(stomp);
+
+      stomp.subscribe('/topic/messages', (messageOutput) => {
+        const response = JSON.parse(messageOutput.body);
+        console.log("Received message:", response);
+
+        if (response.aiResponse && response.aiResponse.message) {
+          try {
+            const messageObj = JSON.parse(response.aiResponse.message);
+            if (messageObj.widget) {
+              const widgetId = Date.now();
+              setWidgets(prevWidgets => [...prevWidgets, {
+                id: widgetId,
+                data: response.aiResponse
+              }]);
+              setAmounts(prev => ({ ...prev, [widgetId]: '' }));
+            }
+          } catch (error) {
+            console.error('Error parsing widget message:', error);
+          }
+        }
+      });
+    });
+
+    return () => {
+      if (stomp) {
+        stomp.disconnect();
+      }
+    };
+  }, []);
+
+  const showNotification = (widgetId, message) => {
+    setNotifications(prev => ({ ...prev, [widgetId]: message }));
+    // Clear notification after 3 seconds
+    setTimeout(() => {
+      setNotifications(prev => {
+        const newNotifications = { ...prev };
+        delete newNotifications[widgetId];
+        return newNotifications;
+      });
+    }, 3000);
+  };
+
+  const removeWidget = (widgetId) => {
+    setWidgets(prevWidgets => prevWidgets.filter(widget => widget.id !== widgetId));
+    setAmounts(prev => {
+      const newAmounts = { ...prev };
+      delete newAmounts[widgetId];
+      return newAmounts;
+    });
+  };
+
+  const handleAmountChange = (widgetId, value) => {
+    if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 0)) {
+      setAmounts(prev => ({ ...prev, [widgetId]: value }));
+    }
+  };
+
+  const sendTradeMessage = (widgetId, amount, asset, isBuy) => {
+    if (stompClient && amount) {
+      const message = {
+        textPrompt: `I want to ${isBuy ? 'buy' : 'sell'} ${amount} euro of ${asset}`
+      };
+      stompClient.send("/messages/new", {}, JSON.stringify(message));
+
+      // Show notification
+      showNotification(widgetId, `Request sent: ${isBuy ? 'Buying' : 'Selling'} ${amount} EUR of ${asset}`);
+
+      // Clear the amount input
+      setAmounts(prev => ({ ...prev, [widgetId]: '' }));
+    }
+  };
+
+  const handleTrade = (widgetId, asset, isBuy) => {
+    const amount = amounts[widgetId];
+    if (!amount) {
+      showNotification(widgetId, 'Please enter an amount');
+      return;
+    }
+    sendTradeMessage(widgetId, amount, asset, isBuy);
+  };
+
+  const handleKeyPress = (e, widgetId, asset, isBuy) => {
+    if (e.key === 'Enter') {
+      const amount = amounts[widgetId];
+      if (amount) {
+        sendTradeMessage(widgetId, amount, asset, isBuy);
+      } else {
+        showNotification(widgetId, 'Please enter an amount');
+      }
+    }
+  };
 
   return (
-    <div
-      className={`widgets-bar ${isOpen ? "open" : "closed"}`}
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      {isOpen && (
-        <div className="widgets-container">
-          <div onClick={(e) => e.stopPropagation()}>
-            <WidgetRenderer widgetData={backendDataQuickTrade} />
-          </div>
-          <div onClick={(e) => e.stopPropagation()}>
-            <WidgetRenderer widgetData={backendDataPortfolio} />
-          </div>
+      <div className={`widgets-bar ${isOpen ? 'open' : 'closed'}`}>
+        <div className="widgets-header" onClick={() => setIsOpen(!isOpen)}>
+          <span className="widgets-title">Active Widgets ({widgets.length})</span>
+          <button className="toggle-button">{isOpen ? '▼' : '▲'}</button>
         </div>
-      )}
-    </div>
+
+        {isOpen && (
+            <div className="widgets-container" onClick={(e) => e.stopPropagation()}>
+              {widgets.map(widget => {
+                let messageObj;
+                try {
+                  messageObj = JSON.parse(widget.data.message);
+                } catch (error) {
+                  console.error('Error parsing widget message:', error);
+                  return null;
+                }
+
+                const widgetData = messageObj.widget;
+                if (!widgetData) return null;
+
+                return (
+                    <div key={widget.id} className="widget-wrapper">
+                      <button
+                          className="remove-widget-btn"
+                          onClick={() => removeWidget(widget.id)}
+                          title="Remove widget"
+                      >
+                        ×
+                      </button>
+                      <div className="widget">
+                        {widgetData.type === "QUICK_TRADE" && (
+                            <div className="quick-trade-widget">
+                              <h3 className="widget-title">
+                                {widgetData.isBuy ? 'Quick Buy' : 'Quick Sell'} {widgetData.assets[0]}
+                              </h3>
+                              <div className="amount-input-container">
+                                <input
+                                    type="text"
+                                    value={amounts[widget.id] || ''}
+                                    onChange={(e) => handleAmountChange(widget.id, e.target.value)}
+                                    onKeyPress={(e) => handleKeyPress(e, widget.id, widgetData.assets[0], widgetData.isBuy)}
+                                    placeholder="Enter EUR amount"
+                                    className="amount-input"
+                                />
+                                <span className="currency-label">EUR</span>
+                              </div>
+                              {notifications[widget.id] && (
+                                  <div className="notification-message">
+                                    {notifications[widget.id]}
+                                  </div>
+                              )}
+                              <button
+                                  className={`trade-button ${widgetData.isBuy ? 'buy' : 'sell'}`}
+                                  onClick={() => handleTrade(widget.id, widgetData.assets[0], widgetData.isBuy)}
+                              >
+                                {widgetData.isBuy ? 'Buy' : 'Sell'} {widgetData.assets[0]}
+                              </button>
+                            </div>
+                        )}
+                      </div>
+                    </div>
+                );
+              })}
+            </div>
+        )}
+      </div>
   );
-}
+};
 
 export default WidgetsBar;
