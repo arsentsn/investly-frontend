@@ -1098,3 +1098,24 @@ margin-top: 4px;
   height: 45px;
   overflow: hidden;
 }
+
+.portfolio-chart-widget {
+  width: 300px;
+  margin: 0;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.widgets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+.widget-wrapper {
+  position: relative;
+  /* Remove any width constraints from wrapper */
+}

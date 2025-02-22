@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WidgetRenderer from './WidgetRenderer';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import PortfolioChartWidget from "../utils/PortfolioChartWidget";
 
 const WidgetsBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -112,7 +113,6 @@ const WidgetsBar = () => {
   return (
       <div className={`widgets-bar ${isOpen ? 'open' : 'closed'}`}>
         <div className="widgets-header" onClick={() => setIsOpen(!isOpen)}>
-          <span className="widgets-title">Active Widgets ({widgets.length})</span>
           <button className="toggle-button">{isOpen ? '▼' : '▲'}</button>
         </div>
 
@@ -127,7 +127,8 @@ const WidgetsBar = () => {
                   return null;
                 }
 
-                const widgetData = messageObj.widget;
+                // Check for both widget and portfolio data
+                const widgetData = messageObj.widget || messageObj.portfolio;
                 if (!widgetData) return null;
 
                 return (
@@ -140,6 +141,11 @@ const WidgetsBar = () => {
                         ×
                       </button>
                       <div className="widget">
+                        {(widgetData.type === "PORTFOLIO" || messageObj.response.includes("portfolio")) && (
+                            <div className="portfolio-chart-widget">
+                              <PortfolioChartWidget balanceData={widgetData} />
+                            </div>
+                        )}
                         {widgetData.type === "QUICK_TRADE" && (
                             <div className="quick-trade-widget">
                               <h3 className="widget-title">
@@ -172,8 +178,7 @@ const WidgetsBar = () => {
                       </div>
                     </div>
                 );
-              })}
-            </div>
+              })}            </div>
         )}
       </div>
   );
