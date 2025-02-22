@@ -264,3 +264,329 @@ margin-top: 4px;
 .widgets-bar.open ~ .chat-display {
   height: calc(100vh - 330px);
 }
+
+/* Add these styles to your App.css file */
+
+.investment-advice {
+  text-align: left;
+  padding: 10px;
+}
+
+.main-response {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.allocation-breakdown {
+  margin: 10px 0;
+}
+
+.allocation-item {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.strategy-note {
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* Update existing message styles */
+.message.bot {
+  background-color: #27f6b1;
+  color: #000;
+  align-self: flex-end;
+  margin-right: auto;
+  max-width: 80%;
+  text-align: left;
+}
+
+.message-content {
+  padding: 5px 10px;
+}
+
+/* Add these styles to your App.css file */
+
+/* Balance Information Styles */
+.balance-info {
+  width: 100%;
+  padding: 15px;
+}
+
+.balance-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.balance-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.balance-item:hover {
+  transform: translateY(-2px);
+}
+
+.crypto-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.balance-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: #000;
+}
+
+.asset-amount {
+  color: #1a1a1a;
+  font-size: 0.9rem;
+}
+
+.total-value {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: right;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.investment-advice {
+  text-align: left;
+  padding: 10px;
+}
+
+.main-response {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.allocation-breakdown {
+  margin: 10px 0;
+}
+
+.allocation-item {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.strategy-note {
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* Update existing message styles */
+.message.bot {
+  background-color: #27f6b1;
+  color: #000;
+  align-self: flex-end;
+  margin-right: auto;
+  max-width: 80%;
+  text-align: left;
+}
+
+.message-content {
+  padding: 5px 10px;
+}
+
+/* Add these styles to your App.css file */
+
+/* Balance Information Styles */
+.balance-info {
+  width: 100%;
+  padding: 15px;
+}
+
+.balance-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.balance-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.balance-item:hover {
+  transform: translateY(-2px);
+}
+
+.crypto-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.balance-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: #000;
+}
+
+.asset-amount {
+  color: #1a1a1a;
+  font-size: 0.9rem;
+}
+
+.total-value {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: right;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* Trade History Styles */
+.trade-history {
+  width: 100%;
+  padding: 15px;
+}
+
+.trade-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.trades-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trade-item {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  transition: transform 0.2s ease;
+}
+
+.trade-item:hover {
+  transform: translateX(2px);
+}
+
+.trade-symbol {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trade-type {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.trade-type.buy {
+  background-color: #28F6B1;
+  color: #000;
+}
+
+.trade-type.sell {
+  background-color: rgb(253, 102, 37);
+  color: #fff;
+}
+
+.trade-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.trade-amount,
+.trade-price,
+.trade-total,
+.trade-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  color: #666;
+  font-weight: 500;
+}
+
+.value {
+  color: #000;
+  font-weight: 500;
+}
+
+.investment-advice {
+  text-align: left;
+  padding: 10px;
+}
+
+.main-response {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.allocation-breakdown {
+  margin: 10px 0;
+}
+
+.allocation-item {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.strategy-note {
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* Update existing message styles */
+.message.bot {
+  background-color: #27f6b1;
+  color: #000;
+  align-self: flex-end;
+  margin-right: auto;
+  max-width: 80%;
+  text-align: left;
+}
+
+.message-content {
+  padding: 5px 10px;
+}

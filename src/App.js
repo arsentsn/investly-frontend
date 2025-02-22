@@ -9,15 +9,6 @@ function App() {
     const [messages, setMessages] = useState([]);
     const user = "User";
 
-    const portfolioData = [
-        { month: 'Sep', value: 12500 },
-        { month: 'Oct', value: 13100 },
-        { month: 'Nov', value: 14200 },
-        { month: 'Dec', value: 13800 },
-        { month: 'Jan', value: 14000 },
-        { month: 'Feb', value: 15231.89 }
-    ];
-
     const handleNewMessage = (text, mask) => {
         setMessages(prevMessages => [...prevMessages, {
             text,
@@ -29,7 +20,7 @@ function App() {
     return (
         <div className="App">
             <Header />
-            <WidgetsBar portfolioData={portfolioData} />
+            <WidgetsBar />
             <ChatDisplay
                 messages={messages}
                 user={user}
