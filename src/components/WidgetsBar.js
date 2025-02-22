@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import RevenueChart from "./Widgets";
 import WidgetRenderer from "./WidgetRenderer";
 
 const backendDataQuickTrade = {
@@ -40,9 +39,6 @@ function WidgetsBar({ portfolioData }) {
     >
       {isOpen && (
         <div className="widgets-container">
-          <div onClick={(e) => e.stopPropagation()}>
-            <RevenueChart data={portfolioData} />
-          </div>
           <div onClick={(e) => e.stopPropagation()}>
             <WidgetRenderer widgetData={backendDataQuickTrade} />
           </div>
