@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   text-align: center;
+  overflow: hidden;
 }
 
 body {
@@ -153,28 +154,27 @@ body {
 }
 
 .message {
-  margin: 8px 0;
-  padding: 4px;
-  border-radius: 1rem;
-  max-width: 40%;
-}
-
-.message.bot {
-  background-color: #27f6b1;
-  color: #000;
-  align-self: flex-end;
-  margin-right: auto;
-  max-width: 80%;
-}
+   display: inline-block;
+   margin: 8px 16px;
+   padding: 8px 16px;
+   border-radius: 1rem;
+   max-width: fit-content;
+   width: auto;
+   word-wrap: break-word;
+   line-height: 1.4;
+ }
 
 .message.user {
   background-color: #2a2a2a;
   color: #fff;
-  margin-left:auto
+  float: right;
+  clear: both;
+  max-width: 60%;
 }
 
 .text-paragraph {
-  margin: 10px;
+  margin: 0;
+  padding: 0;
 }
 
 .message.loading {
@@ -221,19 +221,26 @@ body {
   margin-right: auto;
 }
 
-.widgets-container {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  height: 100%;
-  align-items: center;
-}
-
 .chat-display {
-width: 70%;
-/* height: calc(100vh - 175px); */
-overflow-y: auto;
-margin-top: 4px;
+  width: 70%;
+  height: calc(100vh - 175px);
+  overflow-y: auto;
+  margin-top: 4px;
+  padding-bottom: 10px;
+  margin-bottom: 100px;
+  scrollbar-width: thin;
+  scrollbar-color: #27f6b1 #2a2a2a;
+  position: relative;
+  mask-image: linear-gradient(to bottom,
+  black calc(100% - 100px),
+  transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(to bottom,
+  black calc(100% - 100px),
+  transparent 100%
+  );
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .widgets-bar.open ~ .chat-display {
@@ -265,17 +272,6 @@ margin-top: 4px;
 .strategy-note {
   margin-top: 15px;
   font-style: italic;
-}
-
-/* Update existing message styles */
-.message.bot {
-  background-color: #27f6b1;
-  color: #000;
-  align-self: flex-end;
-  margin-right: auto;
-  max-width: 80%;
-  text-align: left;
-  padding-right: 35px;
 }
 
 /* Add these styles to your App.css file */
@@ -364,16 +360,6 @@ margin-top: 4px;
 .strategy-note {
   margin-top: 15px;
   font-style: italic;
-}
-
-/* Update existing message styles */
-.message.bot {
-  background-color: #27f6b1;
-  color: #000;
-  align-self: flex-end;
-  margin-right: auto;
-  max-width: 80%;
-  text-align: left;
 }
 
 /* Add these styles to your App.css file */
@@ -545,17 +531,6 @@ margin-top: 4px;
   margin-top: 15px;
   font-style: italic;
 }
-
-/* Update existing message styles */
-.message.bot {
-  background-color: #27f6b1;
-  color: #000;
-  align-self: flex-end;
-  margin-right: auto;
-  max-width: 80%;
-  text-align: left;
-}
-/* Add these styles to your App.css file */
 
 /* Balance Information Styles */
 .balance-info {
@@ -777,14 +752,14 @@ margin-top: 4px;
 .message.bot {
   background-color: #27f6b1;
   color: #000;
-  align-self: flex-end;
-  margin-right: auto;
+  float: left;
+  clear: both;
   max-width: 80%;
-  text-align: left;
 }
 
 .message-content {
-  padding: 5px 10px;
+  padding: 0;
+  margin: 0;
 }
 
 .widget-response {
@@ -825,11 +800,6 @@ margin-top: 4px;
   color: #fff;
   cursor: pointer;
   font-size: 12px;
-}
-
-.widget-wrapper {
-  position: relative;
-  margin: 10px;
 }
 
 .remove-widget-btn {
@@ -880,22 +850,6 @@ margin-top: 4px;
   cursor: pointer;
   font-size: 12px;
   padding: 0;
-}
-
-.widgets-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  min-height: 150px;
-}
-
-.widget-wrapper {
-  position: relative;
-  background: #0B0B0B;
-  border-radius: 15px;
-  padding: 20px;
-  min-width: 200px;
 }
 
 .remove-widget-btn {
@@ -944,6 +898,20 @@ margin-top: 4px;
   position: relative;
   border-radius: 8px;
   margin-bottom: 20px;
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .widgets-header {
@@ -970,22 +938,6 @@ margin-top: 4px;
   cursor: pointer;
   font-size: 12px;
   padding: 0;
-}
-
-.widgets-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  min-height: 150px;
-}
-
-.widget-wrapper {
-  position: relative;
-  background: #0B0B0B;
-  border-radius: 15px;
-  padding: 20px;
-  min-width: 200px;
 }
 
 .remove-widget-btn {
@@ -1109,13 +1061,22 @@ margin-top: 4px;
 
 .widgets-container {
   display: flex;
-  flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
-  overflow-x: hidden;
+  min-height: 150px;
+  align-items: center; /* Center widgets vertically */
+  justify-content: flex-start; /* Align widgets to the start horizontally */
+  overflow-x: auto;
+  overflow-y: hidden; /* Prevent vertical scroll */
 }
 
 .widget-wrapper {
   position: relative;
-  /* Remove any width constraints from wrapper */
+  background: #0B0B0B;
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 200px;
+  height: fit-content; /* Adjust height based on content */
+  display: flex;
+  align-items: center;
 }

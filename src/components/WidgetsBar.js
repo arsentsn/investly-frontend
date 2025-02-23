@@ -9,7 +9,13 @@ const WidgetsBar = () => {
   const [widgets, setWidgets] = useState([]);
   const [stompClient, setStompClient] = useState(null);
   const [amounts, setAmounts] = useState({});
-  const [notifications, setNotifications] = useState({}); // For feedback messages
+  const [notifications, setNotifications] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Effect to handle visibility based on widgets
+  useEffect(() => {
+    setIsVisible(widgets.length > 0);
+  }, [widgets]);
 
   useEffect(() => {
     const socket = new SockJS('http://localhost:8086/ws');
@@ -50,7 +56,6 @@ const WidgetsBar = () => {
 
   const showNotification = (widgetId, message) => {
     setNotifications(prev => ({ ...prev, [widgetId]: message }));
-    // Clear notification after 3 seconds
     setTimeout(() => {
       setNotifications(prev => {
         const newNotifications = { ...prev };
@@ -81,11 +86,7 @@ const WidgetsBar = () => {
         textPrompt: `I want to ${isBuy ? 'buy' : 'sell'} ${amount} euro of ${asset}`
       };
       stompClient.send("/messages/new", {}, JSON.stringify(message));
-
-      // Show notification
       showNotification(widgetId, `Request sent: ${isBuy ? 'Buying' : 'Selling'} ${amount} EUR of ${asset}`);
-
-      // Clear the amount input
       setAmounts(prev => ({ ...prev, [widgetId]: '' }));
     }
   };
@@ -110,7 +111,8 @@ const WidgetsBar = () => {
     }
   };
 
-  return (
+  // Only render if there are widgets
+  return isVisible ? (
       <div className={`widgets-bar ${isOpen ? 'open' : 'closed'}`}>
         <div className="widgets-header" onClick={() => setIsOpen(!isOpen)}>
           <button className="toggle-button">{isOpen ? '▼' : '▲'}</button>
@@ -127,7 +129,6 @@ const WidgetsBar = () => {
                   return null;
                 }
 
-                // Check for both widget and portfolio data
                 const widgetData = messageObj.widget || messageObj.portfolio;
                 if (!widgetData) return null;
 
@@ -141,7 +142,7 @@ const WidgetsBar = () => {
                         ×
                       </button>
                       <div className="widget">
-                        {(widgetData.type === "PORTFOLIO" || messageObj.response.includes("portfolio")) && (
+                        {(widgetData.type === "PORTFOLIO" || messageObj.response?.includes("portfolio")) && (
                             <div className="portfolio-chart-widget">
                               <PortfolioChartWidget balanceData={widgetData} />
                             </div>
@@ -178,10 +179,11 @@ const WidgetsBar = () => {
                       </div>
                     </div>
                 );
-              })}            </div>
+              })}
+            </div>
         )}
       </div>
-  );
+  ) : null;
 };
 
 export default WidgetsBar;
