@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import TradeHistoryDisplay from '../utils/TradeHistoryDisplay';
+import OrderDisplay from '../utils/OrderDisplay';
 
 const formatAIResponse = (messageString) => {
     try {
@@ -10,6 +11,10 @@ const formatAIResponse = (messageString) => {
 
         // Parse the inner message JSON string
         const innerMessage = JSON.parse(messageObj.message);
+
+        if (innerMessage.response && innerMessage.order_details) {
+            return <OrderDisplay orderData={innerMessage} />;
+        }
 
         // Handle crypto information response
         if (innerMessage.response && innerMessage.current_market_position) {
@@ -75,7 +80,7 @@ const formatAIResponse = (messageString) => {
                 <div className="balance-info">
                     <h3 className="balance-header">Current Portfolio Balance</h3>
                     <div className="balance-grid">
-                        {Object.entries(innerMessage.balances).map(([symbol, details]) => (
+                        {Object.entries(innerMessage.balances).filter(([_, details]) => parseFloat(details.amount) > 0).map(([symbol, details]) => (
                             <div key={symbol} className="balance-item">
                                 <img
                                     src={`/crypto-icons/${symbol.toLowerCase()}.svg`}
@@ -87,20 +92,30 @@ const formatAIResponse = (messageString) => {
                                 />
                                 <div className="balance-details">
                                     <span className="asset-name">{details.asset}</span>
-                                    <span className="asset-amount">{details.amount} {symbol}</span>
+                                    <div className="amount-container">
+                                        <span className="asset-amount">{details.amount} {symbol}</span>
+                                        {details.usd_value && (
+                                            <span className="usd-value">${Number(details.usd_value).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            })}</span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                     {innerMessage.total_value_usd && (
                         <div className="total-value">
-                            Total Value: ${Number(innerMessage.total_value_usd).toLocaleString()}
+                            Total Value: ${Number(innerMessage.total_value_usd).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}
                         </div>
                     )}
                 </div>
             );
         }
-
         // Handle investment advice response
         if (innerMessage.allocation) {
             return (
@@ -135,6 +150,25 @@ function ChatDisplay({ messages, user, onNewMessage }) {
     const [isLoading, setIsLoading] = useState(false);
     const showWelcome = messages.length === 0;
     const messagesEndRef = useRef(null);
+
+    const getMessageClass = (message) => {
+        let classes = `message ${message.isUser ? 'user' : 'bot'}`;
+
+        if (!message.isUser && message.text) {
+            try {
+                const messageObj = typeof message.text === 'object' ? message.text : JSON.parse(message.text);
+                const innerMessage = JSON.parse(messageObj.message);
+
+                if (innerMessage.balances) {
+                    classes += ' balance-message';
+                }
+            } catch (e) {
+                // If parsing fails, just use regular message class
+            }
+        }
+
+        return classes;
+    };
 
     useEffect(() => {
         const chatContainer = document.querySelector('.chat-display');
@@ -193,7 +227,7 @@ function ChatDisplay({ messages, user, onNewMessage }) {
                     {messages.map((message, index) => (
                         <div
                             key={index}
-                            className={`message ${message.isUser ? 'user' : 'bot'}`}
+                            className={getMessageClass(message)}
                         >
                             <div className="message-content">
                                 {message.isUser ? (

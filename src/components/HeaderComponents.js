@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../static/logo.png';
-import profilePic from '../static/profile-pic.jpg';
+import profilePic from '../static/profile.webp';
 import { user } from '../constants/userConstants.js'
 
 export function Header() {

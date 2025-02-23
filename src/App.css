@@ -498,12 +498,12 @@ body {
 }
 
 .label {
-  color: #666;
+  color: #999999;
   font-weight: 500;
 }
 
 .value {
-  color: #000;
+  color: #27f6b1;
   font-weight: 500;
 }
 
@@ -661,7 +661,7 @@ body {
 }
 
 .trade-item {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #2a2a2a;
   border-radius: 8px;
   padding: 12px;
   transition: transform 0.2s ease;
@@ -678,6 +678,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: white;
 }
 
 .trade-type {
@@ -719,7 +720,7 @@ body {
 }
 
 .value {
-  color: #000;
+  color: white;
   font-weight: 500;
 }
 
@@ -1080,3 +1081,446 @@ body {
   display: flex;
   align-items: center;
 }
+
+/* Order Display Container */
+.order-display {
+  width: 100%;
+  max-width: 400px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #fff;
+  margin: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Order Header */
+.order-header {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+/* Buy Order Theme */
+.order-display.buy .order-header {
+  background-color: rgba(40, 246, 177, 0.1);
+}
+
+.order-display.buy .order-type {
+  color: #28F6B1;
+}
+
+/* Sell Order Theme */
+.order-display.sell .order-header {
+  background-color: rgba(253, 102, 37, 0.1);
+}
+
+.order-display.sell .order-type {
+  color: rgb(253, 102, 37);
+}
+
+/* Order Type Badge */
+.order-type {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.order-type.buy {
+  background-color: rgba(40, 246, 177, 0.2);
+}
+
+.order-type.sell {
+  background-color: rgba(253, 102, 37, 0.2);
+}
+
+/* Order Content */
+.order-content {
+  padding: 16px;
+}
+
+/* Order Details Grid */
+.order-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.detail-value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Order Symbol */
+.order-symbol {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Order Status */
+.order-status {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.filled {
+  background-color: rgba(40, 246, 177, 0.2);
+  color: #28F6B1;
+}
+
+.status-badge.pending {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+/* Order Response Text */
+.order-response {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+/* Price Info */
+.price-info {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #333;
+}
+
+/* Order ID Display */
+.order-id {
+  color: #666;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+/* Hover Effects */
+.order-display:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Balance Information Styles */
+.balance-info {
+  width: 100%;
+  padding: 15px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.balance-header {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #fff;
+  text-align: left;
+}
+
+.balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.balance-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.balance-item:hover {
+  transform: translateY(-2px);
+  background-color: #333;
+}
+
+.crypto-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 2px;
+}
+
+.balance-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: #fff;
+  font-size: 14px;
+}
+
+.amount-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.asset-amount {
+  color: #ccc;
+  font-size: 13px;
+}
+
+.usd-value {
+  color: #28F6B1;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.total-value {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #000000;
+}
+
+/* Keep existing message styles intact */
+.message {
+  display: inline-block;
+  margin: 8px 16px;
+  padding: 8px 16px;
+  border-radius: 1rem;
+  max-width: fit-content;
+  width: auto;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.message.user {
+  background-color: #2a2a2a;
+  color: #fff;
+  float: right;
+  clear: both;
+  max-width: 60%;
+}
+
+.message.bot {
+  background-color: #27f6b1;
+  color: #000;
+  float: left;
+  clear: both;
+  max-width: 80%;
+}
+
+/* Only target balance info specifically */
+.message.bot .balance-info {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+}
+
+.message.bot .balance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Start with 2 columns */
+  gap: 12px;
+  width: 100%;
+  min-width: 500px; /* Minimum width to ensure grid has space */
+}
+
+/* Make container wider only for balance messages */
+.message.bot.balance-message {
+  width: 80%;
+  max-width: 800px; /* Limit maximum width */
+}
+
+.balance-item {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .message.bot .balance-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    min-width: auto;
+  }
+
+  .message.bot.balance-message {
+    width: 95%;
+  }
+}
+
+/* Update these specific balance styles in your App.css */
+
+.message.bot .balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Reduced from 250px */
+  gap: 8px; /* Reduced from 12px */
+  width: 100%;
+}
+
+.balance-item {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 8px 10px; /* Reduced padding */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced gap between icon and text */
+}
+
+.crypto-icon {
+  width: 24px; /* Reduced from 32px */
+  height: 24px; /* Reduced from 32px */
+  min-width: 24px; /* Prevent icon from shrinking */
+}
+
+.balance-details {
+  flex: 1;
+  min-width: 0; /* Allows text to shrink if needed */
+}
+
+.asset-name {
+  font-size: 13px; /* Slightly smaller font */
+  margin-bottom: 2px;
+}
+
+.asset-amount {
+  font-size: 12px;
+}
+
+.usd-value {
+  font-size: 12px;
+}
+
+/* Adjust container width */
+.message.bot.balance-message {
+  width: 70%; /* Reduced from 80% */
+  max-width: 700px; /* Reduced from 800px */
+}
+
+/* Update the balance styles in your App.css */
+
+.message.bot .balance-info {
+  background-color: #27f6b1;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 15px;
+  width: 100%;
+}
+
+.balance-header {
+  color: #000000;
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.message.bot .balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.balance-item {
+  background-color: #2a2a2a;
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.balance-item:hover {
+  background-color: #333;
+}
+
+.crypto-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 2px;
+}
+
+.balance-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.asset-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.asset-amount {
+  color: #999;
+  font-size: 12px;
+}
+
+.usd-value {
+  color: #28F6B1;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.total-value {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+  text-align: right;
+  color: #000000;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Adjust the bot message container for balance info */
+.message.bot.balance-message {
+  background-color: transparent !important;
+  width: 70%;
+  max-width: 700px;
+  padding: 0;
+}
+

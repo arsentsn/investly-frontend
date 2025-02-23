@@ -1,46 +1,48 @@
 import React from 'react';
 
 const TradeHistoryDisplay = ({ trade }) => {
-    // Parse numeric values and handle potential undefined/null values
-    const amount = parseFloat(trade.qty || '0');
-    const price = parseFloat(trade.price || '0');
-    const total = amount * price;
+    // Parse numeric values ensuring proper decimal handling
+    const quantity = parseFloat(trade.quantity);
+    const price = parseFloat(trade.price);
+    const total = parseFloat(trade.quoteQuantity); // Use quoteQuantity for total
 
     // Format the timestamp
-    const timestamp = trade.time ? new Date(trade.time).toLocaleString() : 'N/A';
+    const timestamp = trade.time
+        ? new Date(trade.time).toLocaleString()
+        : 'N/A';
 
-    // Determine if it's a buy or sell
-    const isBuyer = trade.isBuyer || false;
+    // Get the base asset (remove USDT from symbol)
+    const baseAsset = trade.symbol.replace('USDT', '');
 
     return (
         <div className="trade-item">
             <div className="trade-symbol">
-                <span>{isBuyer ? 'BUY' : 'SELL'}</span>
-                <span className={`trade-type ${isBuyer ? 'buy' : 'sell'}`}>
-          {trade.symbol || 'Unknown'}
-        </span>
+                <span>{trade.isBuyer ? 'BUY' : 'SELL'}</span>
+                <span className={`trade-type ${trade.isBuyer ? 'buy' : 'sell'}`}>
+                    {trade.symbol}
+                </span>
             </div>
 
             <div className="trade-details">
                 <div className="trade-amount">
                     <span className="label">Amount:</span>
                     <span className="value">
-            {!isNaN(amount) ? amount.toFixed(6) : '0.00'} {trade.symbol?.replace('USDT', '')}
-          </span>
+                        {quantity.toFixed(8)} {baseAsset}
+                    </span>
                 </div>
 
                 <div className="trade-price">
                     <span className="label">Price:</span>
                     <span className="value">
-            ${!isNaN(price) ? price.toFixed(2) : '0.00'}
-          </span>
+                        ${price.toFixed(2)}
+                    </span>
                 </div>
 
                 <div className="trade-total">
                     <span className="label">Total:</span>
                     <span className="value">
-            ${!isNaN(total) ? total.toFixed(2) : '0.00'}
-          </span>
+                        ${total.toFixed(2)}
+                    </span>
                 </div>
 
                 <div className="trade-time">

@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
     const [messages, setMessages] = useState([]);
-    const user = "User";
+    const user = "Bob";
 
     const handleNewMessage = (text, mask) => {
         setMessages(prevMessages => [...prevMessages, {
