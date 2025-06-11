@@ -1,70 +1,242 @@
-# Getting Started with Create React App
+# Investly Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Investly is our 2 day hackathon project! An AI-powered investment assistant frontend built with React that provides an intuitive chat interface for cryptocurrency trading and portfolio management.
+
+**🔗 Backend Repository**: [investly-backend](https://github.com/pgiannopoulos/investly-backend/tree/main)
+
+https://github.com/user-attachments/assets/de449a2f-9ca6-4b29-b2e3-db56baf42d6c
+
+## Features
+
+- **AI Chat Interface**: Real-time conversation with AI investment assistant
+- **Interactive Widgets**: Dynamic trading widgets for quick buy/sell operations
+- **Portfolio Visualization**: Chart-based portfolio overview with Recharts
+- **Trade History Display**: Comprehensive trade history with detailed information
+- **Real-time Updates**: WebSocket integration for live data updates
+- **Responsive Design**: Mobile-friendly interface with modern styling
+- **Price Fetching**: Integration with CoinGecko API for real-time crypto prices
+- **Order Management**: Visual order displays with execution details
+- **Multi-Widget Support**: Dynamic widget rendering for different trading interfaces
+
+## Technology Stack
+
+- **React 19.0.0** - Frontend framework
+- **JavaScript (ES6+)** - Programming language
+- **WebSocket** - Real-time communication
+  - SockJS Client 1.6.1
+  - STOMP.js 7.0.0
+- **Charts & Visualization**
+  - Recharts 2.15.1
+  - Chart.js 4.4.8
+  - React-Chartjs-2 5.3.0
+- **HTTP Client** - Axios 1.7.9
+- **CSS3** - Custom styling with animations
+- **React Context API** - State management
+- **GitHub Pages** - Deployment platform
+
+## Prerequisites
+
+- Node.js 16+ or higher
+- npm or yarn package manager
+- Backend server running on `http://localhost:8086`
+- CoinGecko API access (free tier available)
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd investly-frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm start
+```
+
+The application will start on `http://localhost:3000` by default.
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in interactive watch mode.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder with optimized performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run deploy`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Deploys the app to GitHub Pages (requires `gh-pages` package).
 
-### `npm run eject`
+## Configuration
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The frontend connects to the backend WebSocket server at `http://localhost:8086/ws`. Make sure the backend is running before starting the frontend.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Environment Variables
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+No additional environment variables are required for basic functionality. The app uses:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Backend WebSocket: `http://localhost:8086/ws`
+- CoinGecko API: `https://api.coingecko.com/api/v3/simple/price`
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── components/
+│   ├── ChatDisplay.js           # Main chat interface with message formatting
+│   ├── HeaderComponents.js      # Header with logo and profile
+│   ├── InputComponents.js       # Message input with WebSocket integration
+│   ├── WidgetRenderer.js        # Dynamic widget rendering logic
+│   └── WidgetsBar.js           # Widgets container management
+├── constants/
+│   └── userConstants.js        # User configuration constants
+├── utils/
+│   ├── CryptoNameConverter.js   # Crypto symbol to CoinGecko ID mapping
+│   ├── CryptoPriceFetcher.js   # Real-time price fetching utility
+│   ├── OrderDisplay.js         # Order information display component
+│   ├── PortfolioChartWidget.js # Portfolio chart visualization
+│   ├── PriceContext.js         # Price management context provider
+│   └── TradeHistoryDisplay.js  # Trade history component
+├── static/
+│   ├── logo.png               # Application logo
+│   ├── logo.svg               # Vector logo
+│   ├── profile-pic.jpg        # Profile picture
+│   └── profile.webp           # Optimized profile picture
+├── App.js                     # Main application component
+├── App.css                    # Application styles
+├── index.js                   # Application entry point
+└── index.css                  # Global styles
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Key Components
 
-### Code Splitting
+### Chat Interface
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **ChatDisplay**: Main chat component with message formatting and WebSocket message handling
+- **InputBox**: Message input with WebSocket integration for real-time communication
+- **Message Types**:
+  - User messages with loading states
+  - AI responses with formatted content
+  - Widget displays for trading interfaces
+  - Order confirmations and trade history
 
-### Analyzing the Bundle Size
+### Trading Widgets
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **QUICK_TRADE**: Quick buy/sell interface with real-time price conversion
+- **PORTFOLIO**: Portfolio overview with balance visualization
+- **PROFIT_LOSS**: P&L tracking with percentage changes
+- **MARKET_OVERVIEW**: Market analysis and top movers
 
-### Making a Progressive Web App
+### Data Management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **PriceContext**: React Context for managing cryptocurrency prices
+- **CryptoNameConverter**: Maps trading symbols to CoinGecko IDs
+- **CryptoPriceFetcher**: Fetches real-time prices from CoinGecko API
 
-### Advanced Configuration
+### Visualization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **PortfolioChartWidget**: Bar charts for portfolio distribution using Recharts
+- **OrderDisplay**: Formatted order information with execution details
+- **TradeHistoryDisplay**: Comprehensive trade history with filtering
 
-### Deployment
+## WebSocket Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The frontend uses STOMP over SockJS for real-time communication:
 
-### `npm run build` fails to minify
+- **Connection**: `http://localhost:8086/ws`
+- **Send Endpoint**: `/messages/new`
+- **Subscribe Topic**: `/topic/messages`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Message Flow
+
+1. User types message in InputBox
+2. Message sent via WebSocket to backend
+3. AI processes message and responds
+4. Response received and formatted in ChatDisplay
+5. Widgets dynamically rendered based on response content
+
+## API Integration
+
+### CoinGecko API
+
+- **Endpoint**: `https://api.coingecko.com/api/v3/simple/price`
+- **Purpose**: Real-time cryptocurrency price fetching
+- **Rate Limits**: Free tier limitations apply
+
+### Backend API
+
+- **WebSocket**: Real-time chat communication
+- **REST Endpoints**: Via backend for trading operations
+
+## Styling
+
+- **CSS Modules**: Component-specific styling
+- **Responsive Design**: Mobile-first approach
+- **Animations**: Smooth transitions and loading states
+- **Theme**: Modern, clean interface with professional trading aesthetics
+
+## Development
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+### Deployment to GitHub Pages
+
+```bash
+npm run deploy
+```
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Performance Considerations
+
+1. **Code Splitting**: Automatic code splitting with Create React App
+2. **Lazy Loading**: Components loaded on demand
+3. **Memoization**: Optimized re-renders with React.memo and useMemo
+4. **WebSocket Management**: Proper connection handling and cleanup
+5. **Price Caching**: Efficient price data management
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is proprietary software. All rights reserved.
+
+## Support
+
+For support and questions, please contact the Investly development team.
