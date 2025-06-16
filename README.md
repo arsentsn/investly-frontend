@@ -210,21 +210,6 @@ npm run build
 npm run deploy
 ```
 
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Performance Considerations
-
-1. **Code Splitting**: Automatic code splitting with Create React App
-2. **Lazy Loading**: Components loaded on demand
-3. **Memoization**: Optimized re-renders with React.memo and useMemo
-4. **WebSocket Management**: Proper connection handling and cleanup
-5. **Price Caching**: Efficient price data management
-
 ## Contributing
 
 1. Fork the repository
@@ -236,7 +221,3 @@ npm run deploy
 ## License
 
 This project is proprietary software. All rights reserved.
-
-## Support
-
-For support and questions, please contact the Investly development team.
